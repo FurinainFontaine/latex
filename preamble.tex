@@ -1,0 +1,278 @@
+\documentclass[12pt,openany]{book}
+%控制页边距，平衡打印和阅读
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	top=25.4mm, bottom=25.4mm,
+	left=20mm, right=20mm,
+	headheight=2.17cm,
+	headsep=4mm,
+	footskip=12mm
+}
+% 调整行距与显示
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.3} 
+\usepackage[fontset=none]{ctex}
+\ctexset{
+	fontset = none,
+	punct = quanjiao, 
+}
+% 中文字体（全部开源）
+\setCJKmainfont{LXGWWenKaiGB}[
+UprightFeatures = {Font = * Regular},
+BoldFeatures    = {Font = * Medium},
+]
+\setCJKsansfont{Noto Sans CJK SC}[
+UprightFeatures = {Font = * Regular},
+BoldFeatures    = {Font = * Bold},
+]
+
+\setCJKmonofont{LXGWWenKaiMonoGB}[
+UprightFeatures = {Font = * Regular},
+BoldFeatures    = {Font = * Medium},
+]
+% 英文字体（全部开源，Noto系列与LXGW风格统一）
+\usepackage[math-style=TeX]{unicode-math}
+\setmainfont{STIX Two Text}[Ligatures=TeX]
+\setsansfont{Noto Sans}[Ligatures=TeX]
+\setmonofont{Fira Mono}[Ligatures=TeX]
+\setmathfont{STIX Two Math}
+%定义非全局默认的字体
+\newCJKfontfamily\mengshen{Mengshen-Handwritten}
+\newCJKfontfamily\youzai{Yozai}[
+UprightFeatures = {Font = * Regular},
+BoldFeatures    = {Font = * Medium}
+]
+\newCJKfontfamily\sisong{Source Han Serif SC}[
+UprightFeatures = {Font = * Regular},
+BoldFeatures    = {Font = * Heavy},
+]
+%补充字符命令
+\usepackage[normalem]{ulem}
+\usepackage{xcolor}%避免重复加载xcolor
+%数学字符命令: 花体与符号
+\usepackage{mathrsfs,mathtools,esint}
+\let\eth\relax
+\let\digamma\relax
+\let\backepsilon\relax
+\let\smallsetminus\relax
+\usepackage{amssymb}
+%调整页眉页脚
+\usepackage{titlesec, titletoc}				
+\usepackage{fancyhdr}
+\fancyhf{}
+\definecolor{structurecolor}{RGB}{122,122,142}
+\renewcommand{\headrule}{\color{structurecolor}\hrule width\textwidth}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{1pt}
+\fancypagestyle{plain}{\renewcommand{\headrulewidth}{0pt}\fancyhf{}\renewcommand{\headrule}{}}
+\fancyhead[c]{\color{structurecolor}\youzai\rightmark}
+\fancyfoot[c]{\color{structurecolor}\small\thepage}
+%设置章\节\小节等形式
+\titleformat{\chapter}[display]{\sisong}
+{\color{black}\filleft
+	\parbox{1cm}{\vbox to 1.5cm{\vfill\hbox to 4cm{\hfill\Huge \bfseries \color{black}{Chapter} \thechapter \hfill}}}}
+{1ex}
+{\color{black} \titlerule[2pt]\LARGE\bfseries \filright \vspace*{0.5em}}
+[\vspace*{0.5em} {\titlerule[2pt]}]
+\titleformat{\section}[frame]{\normalfont\color{black}}{\footnotesize \enspace \large \textcolor{black}{\S \,\thesection}\enspace}{6pt}{\Large\filcenter \bfseries \sisong }
+\titleformat{\subsection}[hang]{\bfseries\youzai }{\large\bfseries\color{black}\thesubsection\enspace}{1pt}{\color{black}\LARGE\bfseries\filright}
+\titleformat{\subsubsection}[hang]{\bfseries\youzai}{\large\bfseries\color{black}\thesubsubsection\enspace}{1pt}{\color{black}\large\bfseries\filright}
+%数学专用环境: 公理\定义\定理\引理\命题\性质\例题\解\证明
+\usepackage{amsthm}
+\usepackage[most]{tcolorbox}
+% 定义标题样式：标题用思源宋体，正文用文楷 
+\newtheoremstyle{plainstyle}
+{3pt}{3pt}{\normalfont}{}{\bfseries\sisong}{.}{.5em}{}
+\theoremstyle{plainstyle}
+%普通环境,不做特殊强调
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{property}[theorem]{性质}
+\newtheorem{example}[theorem]{例题}
+% 特殊环境:公理,定理,命题
+\definecolor{axicolor}{RGB}{255, 250, 210}
+\definecolor{axiframe}{RGB}{200, 150, 50}
+\newtcbtheorem[use counter=theorem]{axiom}{公理}
+{
+	enhanced, 
+	breakable,                    
+	colback=axicolor,           
+	colframe=axiframe,     
+	coltitle=white,              
+	fonttitle=\bfseries,         
+	attach boxed title to top left={xshift=5mm, yshift=-2mm},
+	boxed title style={
+		size=small,
+		colback=axiframe,
+		colframe=axiframe,
+	},
+	separator sign none,         
+	before upper={\parindent2em} 
+}{axi}
+\definecolor{thmcolor}{RGB}{220, 250, 230}
+\definecolor{thmframe}{RGB}{100, 180, 130}
+\newtcbtheorem[use counter=theorem]{keytheorem}{定理}
+{
+	enhanced, 
+	breakable,                    
+	colback=thmcolor,           
+	colframe=thmframe,     
+	coltitle=white,              
+	fonttitle=\bfseries,         
+	attach boxed title to top left={xshift=5mm, yshift=-2mm},
+	boxed title style={
+		size=small,
+		colback=thmframe,
+		colframe=thmframe,
+	},
+	separator sign none,         
+	before upper={\parindent2em} 
+}{thm}
+\definecolor{procolor}{RGB}{225, 245, 250}
+\definecolor{proframe}{RGB}{100, 160, 180}
+\newtcbtheorem[use counter=theorem]{keyproposition}{命题}
+{
+	enhanced, 
+	breakable,                    
+	colback=procolor,           
+	colframe=proframe,     
+	coltitle=white,              
+	fonttitle=\bfseries,         
+	attach boxed title to top left={xshift=5mm, yshift=-2mm},
+	boxed title style={
+		size=small,
+		colback=proframe,
+		colframe=proframe,
+	},
+	separator sign none,         
+	before upper={\parindent2em} 
+}{pro}
+%证明和解
+\renewenvironment{proof}[1][证明]{\par\underline{\textbf{\sisong #1.}} \;}{\qed\par}
+\newenvironment{solution}[1][解]{\par\underline{\textbf{\sisong #1.}} \;}{\qed\par}
+%引用与交叉引用
+\usepackage[unicode]{hyperref} 
+%注释与分栏
+\usepackage{footnote}
+\usepackage{multicol}
+%表格处理方案
+\usepackage{tabularray}
+\UseTblrLibrary{booktabs}
+%完整的图片处理方案
+\usepackage{graphicx}
+\graphicspath{{./picture/}} 
+\usepackage{caption}
+\captionsetup[figure]{font=small, skip=5pt}
+\usepackage{float}
+\usepackage{subfig}
+\usepackage{wrapfig}
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+\usepackage{tikz}
+\usetikzlibrary{angles, arrows.meta, quotes, calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usetikzlibrary{arrows.meta, positioning, calc, intersections}
+\usepackage{tikz-cd}
+%留言\插入\文艺
+\definecolor{notecolor}{RGB}{255, 240, 245}
+\newtcolorbox{note}[1][]{
+	enhanced,
+	breakable,
+	colback=notecolor,
+	colframe=red!70!black,
+	coltitle=white,
+	fonttitle=\bfseries,
+	title=注意,
+	boxed title style={
+		size=small,
+		colback=red!70!black,
+		colframe=red!70!black
+	},
+	overlay unbroken and first={
+		\ifx\relax#1\relax\else
+		\node[anchor=north east, font=\scriptsize] 
+		at (frame.north west) {#1};
+		\fi
+	},
+	left=5mm,
+	right=5mm,
+	top=3mm,
+	bottom=3mm,
+	before upper={\parindent2em}
+}
+\definecolor{joycolor}{RGB}{235, 225, 250}
+\definecolor{joyframe}{RGB}{150, 120, 180}
+\newtcolorbox{joy}{
+	fontupper=\mengshen,
+	colback=joycolor,
+	colframe=joyframe,
+	arc=3pt,
+	boxrule=0.5pt,
+	left=6pt,
+	right=6pt,
+	top=4pt,
+	bottom=4pt
+}
+\newtcolorbox{sad}{
+	fontupper=\sisong,
+	enhanced,
+	breakable,
+	sharp corners,
+	boxrule=0.8pt,
+	colback=structurecolor!5,
+	colframe=structurecolor,
+	left=6pt,
+	right=6pt,
+	top=4pt,
+	bottom=4pt
+}
+%支持代码
+\usepackage{minted}
+\setminted{
+	breaklines=true,
+	frame=single,
+	framesep=5pt,
+	fontsize=\small,
+	linenos=true,
+	numbersep=5pt,
+	bgcolor=notecolor!30,
+	style=vs
+}
+% 设置封面
+\usepackage{titling}
+\renewcommand*{\maketitle}{
+	\begin{titlepage}
+		\newgeometry{margin = 0in}
+		\parindent=0pt
+		\includegraphics[width=\linewidth]{芙宁娜}
+		\vfill
+		\begin{center}
+			\parbox{0.618\textwidth}{
+				\hfill {\bfseries\sisong\Huge \thetitle} \\[0.6pt]  
+				\rule{0.618\textwidth}{4pt} \\ 
+			}
+		\end{center}
+		\vfill
+		\begin{center}
+			\parbox{0.618\textwidth}{
+				\hfill\Large
+				\begin{tabular}{r|}
+					作者: \theauthor \\ 
+					时间: \thedate \\
+				\end{tabular}
+			}
+		\end{center}
+		\vfill
+		\begin{center}
+			\parbox[t]{0.7\textwidth}{\centering  }
+		\end{center}
+		\vfill
+	\end{titlepage}
+	\restoregeometry
+	\thispagestyle{empty}
+}
